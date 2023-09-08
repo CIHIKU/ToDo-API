@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using ToDo_API.Models;
 using ToDo_API.Repositories;
+using ToDo_API.Utilities;
 
 namespace ToDo_API.Services;
 
@@ -35,5 +36,13 @@ public static class ServiceExtensions
             var userCollection = mongoService.GetCollection<User>(userCollectionName);
             return new UserRepository(userCollection);
         });
+        services.AddScoped<IUserService, UserService>();
+    }
+
+    public static void AddUtilities(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+        services.AddScoped<ITokenUtility, TokenUtility>();
+        services.AddScoped<IPasswordUtility, PasswordUtility>();
     }
 }

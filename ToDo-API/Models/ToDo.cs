@@ -25,7 +25,6 @@ public class ToDo
     [BsonElement("Title")]
     public required string Title { get; set; }
     
-    [BsonIgnoreIfNull]
     [StringLength(500, ErrorMessage = "Description length can't be more than 500.")]
     [BsonElement("Description")]
     public string? Description { get; set; }

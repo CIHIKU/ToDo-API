@@ -20,20 +20,19 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            throw new ApplicationException("An error occurred while retrieving all ToDo items.", e);
+            throw new ApplicationException("", e);
         }
     }
 
     public async Task<User> GetUserByIdAsync(string id)
     {
-        
         try
         {
-            return await _users.Find<User>(user => user.Id == id).FirstOrDefaultAsync();
+            return await _users.Find(user => user.Id == id).FirstOrDefaultAsync();
         }
         catch (Exception e)
         {
-            throw new ApplicationException("An error occurred while retrieving all ToDo items.", e);
+            throw new ApplicationException("", e);
         }
     }
 
@@ -41,35 +40,43 @@ public class UserRepository : IUserRepository
     {
         try
         {
-            return await _users.Find<User>(user => user.Email == email).FirstOrDefaultAsync();
+            return await _users.Find(user => user.Email == email).FirstOrDefaultAsync();
         }
         catch (Exception e)
         {
-            throw new ApplicationException("An error occurred while retrieving all ToDo items.", e);
+            throw new ApplicationException("A user with this email address doesn't exists.", e);
         }
     }
 
     public async Task CreateUserAsync(User user)
     {
+        if (user == null) throw new ArgumentNullException(nameof(user));
         try
         {
             await _users.InsertOneAsync(user);
         }
         catch (Exception e)
         {
-            throw new ApplicationException("An error occurred while retrieving all ToDo items.", e);
+            throw new ApplicationException("", e);
         }
     }
 
-    public async Task UpdateUserAsync(User user)
+    public async Task UpdateUserAsync(string id, User user)
     {
+        if (user == null) throw new ArgumentNullException(nameof(user));
         try
         {
-            await _users.ReplaceOneAsync(u => u.Id == user.Id, user);
+            var updateDefinition = new UpdateDefinitionBuilder<User>();
+
+            var updates = new List<UpdateDefinition<User>>();
+            if (updates == null) throw new ArgumentNullException(nameof(updates));
+
+            var combinedUpdateDefinition = updateDefinition.Combine(updates);
+            await _users.UpdateOneAsync(u => u.Id == id, combinedUpdateDefinition);
         }
         catch (Exception e)
         {
-            throw new ApplicationException("An error occurred while retrieving all ToDo items.", e);
+            throw new ApplicationException("", e);
         }
     }
 
@@ -81,7 +88,7 @@ public class UserRepository : IUserRepository
         }
         catch (Exception e)
         {
-            throw new ApplicationException("An error occurred while retrieving all ToDo items.", e);
+            throw new ApplicationException("", e);
         }
     }
 }
