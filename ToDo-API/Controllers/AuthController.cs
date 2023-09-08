@@ -8,10 +8,14 @@ namespace ToDo_API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IUserService _userService;
+    private IConfiguration _configuration;
+    private IHttpClientFactory _httpClientFactory;
 
-    public AuthController(IUserService userService)
+    public AuthController(IUserService userService, IConfiguration configuration, IHttpClientFactory httpClientFactory)
     {
         _userService = userService;
+        _configuration = configuration;
+        _httpClientFactory = httpClientFactory;
     }
 
     [HttpPost("register")]
@@ -33,32 +37,19 @@ public class AuthController : ControllerBase
         
         return Ok(response);
     }
-
-    [HttpGet("oauth2/{provider}")]
-    public async Task<IActionResult> OAuth2Login(string provider, string returnUrl = null!)
-    {
-        return Ok();
-    }
-
-    [HttpGet("oauth2/{provider}/callback")]
-    public async Task<IActionResult> OAuth2Callback(string provider, [FromQuery] string code, [FromQuery] string state)
-    {
-        return Ok();
-    }
+    
 }
 
 public class RegisterDto
 {
     public required string Email { get; set; }
     public required string Password { get; set; }
-    // Other fields as necessary
 }
 
 public class LoginDto
 {
     public required string Email { get; set; }
     public required string Password { get; set; }
-    // Other fields as necessary
 }
 
 public class AuthResponse

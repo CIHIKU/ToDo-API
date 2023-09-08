@@ -13,6 +13,7 @@ public static class ServicesConfiguration
         services.AddMongoDBService(configuration);
         services.AddToDoServices(configuration);
         services.AddUserServices(configuration);
+        services.AddHttpClient();
         
         services.AddAuthentication(options =>
             {

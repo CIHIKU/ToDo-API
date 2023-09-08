@@ -40,24 +40,9 @@ public class User
     [BsonElement("RefreshToken")]
     public required string RefreshToken { get; set; }
     
-    [BsonElement("OAuthIdentities")]
-    public List<OAuthIdentity> OAuthIdentities { get; set; } = new List<OAuthIdentity>();
-    
     [BsonElement("CreatedOn")]
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
     [BsonElement("UpdatedOn")] 
     public DateTime UpdatedOn { get; set; } = DateTime.UtcNow;
-}
-
-public class OAuthIdentity
-{
-    [BsonElement("Provider")]
-    public required string Provider { get; set; }
-
-    [BsonElement("ProviderId")]
-    public required string ProviderId { get; set; }
-
-    [BsonElement("ProviderKey")]
-    public required string ProviderKey { get; set; }
 }
